@@ -1,0 +1,11 @@
+const router = require('express').Router();
+const c = require('../controllers/orderController');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect);
+router.post('/', authorize('Farmer'), c.createOrder);
+router.get('/my', c.getMyOrders);
+router.get('/', authorize('Admin'), c.getAllOrders);
+router.get('/:id', c.getOrder);
+router.patch('/:id/status', authorize('Admin'), c.updateStatus);
+router.patch('/:id/cancel', authorize('Farmer'), c.cancelOrder);
+module.exports = router;
